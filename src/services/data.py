@@ -8,7 +8,6 @@ import requests
 
 load_dotenv()
 
-
 def query_txn_address(address, start_block=0):
     return (
         f"https://api.etherscan.io/api?module=account&action=txlist&address={

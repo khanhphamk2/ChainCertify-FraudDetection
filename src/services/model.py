@@ -1,7 +1,5 @@
-import h5py
 import joblib
 import numpy as np
-import pandas as pd
 import warnings
 from flask import jsonify
 import src.services.data as data
