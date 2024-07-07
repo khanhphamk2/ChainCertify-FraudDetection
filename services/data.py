@@ -1,20 +1,20 @@
 from flask import jsonify
-from dotenv import load_dotenv
-import os
 import pandas as pd
 import numpy as np
 from web3 import Web3
 import requests
+from dotenv import dotenv_values
 
-load_dotenv()
+env_vars = dotenv_values(".env")
+
 
 def query_txn_address(address, start_block=0):
     return (
-        f"https://api.etherscan.io/api?module=account&action=txlist&address={
+        f"https://api-sepolia.etherscan.io/api?module=account&action=txlist&address={
             address}&"
         f"startblock={
             start_block}&endblock=19999999&page=1&offset=10000&sort=asc&"
-        f"apikey={os.getenv('ETHERSCAN_API_KEY')}"
+        f"apikey={env_vars.get("ETHERSCAN_API_KEY")}"
     )
 
 
@@ -50,15 +50,14 @@ def get_txs_by_address(address):
 
             new_df = pd.DataFrame(additional_data)[
                 columns_to_keep + int_columns + float_columns]
+
             df = pd.concat([df, new_df], ignore_index=True).drop_duplicates()
 
         df = convert_columns(df, int_columns, float_columns)
 
-        return df.iloc[0].to_list()
-
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching data: {e}")
-        return pd.DataFrame()
+        return df
+    except Exception as e:
+        print(f"Error: {e}")
 
 
 def calculate_sent_stats(sample_df_grouped, time_dim, sent_stats):
@@ -69,12 +68,12 @@ def calculate_sent_stats(sample_df_grouped, time_dim, sent_stats):
             lambda x: Web3.from_wei(int(x), 'ether'))
 
         sent_stats['avg_gas_fee'] = sent_df['gas_fee_eth'].mean()
-        sent_stats['total_ether_sent'] = sent_df['eth_value'].sum()
+        sent_stats['total_ether_sent'] = np.double(sent_df['eth_value'].sum())
         sent_stats['unique_sent'] = sent_df['to'].nunique()
         sent_stats['sent_tnx'] = len(sent_df)
-        sent_stats['min_val_sent'] = sent_df['eth_value'].min()
-        sent_stats['max_val_sent'] = sent_df['eth_value'].max()
-        sent_stats['avg_val_sent'] = sent_df['eth_value'].mean()
+        sent_stats['min_val_sent'] = np.double(sent_df['eth_value'].min())
+        sent_stats['max_val_sent'] = np.double(sent_df['eth_value'].max())
+        sent_stats['avg_val_sent'] = np.double(sent_df['eth_value'].mean())
 
         sent_stats['avg_min_sent'] = time_dim['sent']/len(sent_df)
     return sent_stats
@@ -85,12 +84,16 @@ def calculate_received_stats(sample_df_grouped, time_dim, received_stats):
         received_df = sample_df_grouped.get_group('received')
 
         received_stats['received_tnx'] = len(received_df)
-        received_stats['min_value_received'] = received_df['eth_value'].min()
-        received_stats['max_value_received'] = received_df['eth_value'].max()
-        received_stats['avg_value_received'] = received_df['eth_value'].mean()
-        received_stats['total_ether_received'] = received_df['eth_value'].sum()
+        received_stats['min_value_received'] = np.double(
+            received_df['eth_value'].min())
+        received_stats['max_value_received'] = np.double(
+            received_df['eth_value'].max())
+        received_stats['avg_value_received'] = np.double(
+            received_df['eth_value'].mean())
+        received_stats['total_ether_received'] = np.double(
+            received_df['eth_value'].sum())
         received_stats['unique_received'] = received_df['from'].nunique()
-        received_stats['avg_min_received'] = time_dim['reviced'] / \
+        received_stats['avg_min_received'] = time_dim['received'] / \
             len(received_df)
 
     return received_stats
@@ -160,12 +163,19 @@ def get_stats_normal_tnx(sample_df, address):
         'total_eth_received': received_stats['total_ether_received'],
     }
 
-    return pd.DataFrame([overall_stats]).iloc[0].to_list()
+    return overall_stats
 
 
 def get_data(address):
-    sample_df = get_txs_by_address(address)
-    if len(sample_df) == 0:
-        return jsonify({'error': 'No data found for the address'})
+    try:
+        sample_df = get_txs_by_address(address)
+        if len(sample_df) == 0:
+            return jsonify({'error': 'No data found for the address'})
+        return get_stats_normal_tnx(sample_df, address)
+    except Exception as e:
+        print(f"Error fetching data: {e}")
+        return jsonify({'error': 'Error fetching data'})
 
-    return get_stats_normal_tnx(sample_df, address)
+
+def default():
+    return jsonify({"message": "Done"})
