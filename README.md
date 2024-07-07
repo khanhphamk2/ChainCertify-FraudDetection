@@ -1,17 +1,90 @@
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fexamples%2Ftree%2Fmain%2Fpython%2Fflask3&demo-title=Flask%203%20%2B%20Vercel&demo-description=Use%20Flask%203%20on%20Vercel%20with%20Serverless%20Functions%20using%20the%20Python%20Runtime.&demo-url=https%3A%2F%2Fflask3-python-template.vercel.app%2F&demo-image=https://assets.vercel.com/image/upload/v1669994156/random/flask.png)
+# ChainCertify: Module Fraud Detection
 
-# Flask + Vercel
+## Setup Instructions
 
-This example shows how to use Flask 3 on Vercel with Serverless Functions using the [Python Runtime](https://vercel.com/docs/concepts/functions/serverless-functions/runtimes/python).
+### Prerequisites
 
-## How it Works
+- Python 3.12.x installed on your system.
+- Ensure you have `pip` (Python package installer) installed.
 
-This example uses the Web Server Gateway Interface (WSGI) with Flask to enable handling requests on Vercel with Serverless Functions.
-
-## Running Locally
-
-```bash
-npm i -g vercel
-vercel dev
+### Requirements
+The project requires the following Python packages:
+```sh
+Flask==3.0.3
+joblib==1.4.2
+numpy==1.26.4
+pandas==2.2.2
+python-dotenv==1.0.1
+requests==2.31.0
+web3==6.17.0
 ```
-Your Flask application is now available at `http://localhost:3000`.
+
+
+### Installation
+
+1. **Clone the repository:**
+
+   ```sh
+   git clone https://github.com/khanhphamk2/ChainCertify-FraudDetection.git
+   cd ChainCertify-FraudDetection
+
+2. **Create a virtual environment**
+   ```sh
+   python -m venv venv
+   
+3. **Activate the virtual environment**
+- On Windows:
+   ```sh
+   venv\Scripts\activate
+   
+
+- On macOS/Linux:
+   ```bash
+    source venv/bin/activate
+   
+
+4. **Install the dependencies**
+   ```sh
+   pip install -r requirements.txt
+   
+
+### Running the API
+1. **Set up environment variables:**
+
+   - Copy the example environment file to create a your `.env` file:
+
+     ```sh
+     cp .env.example .env
+     ```
+   - Open the `.env` file and add any necessary environment variables.
+
+   ```sh
+    ETHERSCAN_API_KEY = YOUR_ETHERSCAN_API_KEY
+    FEATURES = SELECTED FEATURES
+
+2. **Run the application:**
+
+   ```sh
+    flask run
+    ```
+3. **Access the API:**
+Open your web browser or API client (like Postman) and navigate to http://127.0.0.1:5000 to interact with your API.
+
+### Additional Notes
+
+- Ensure your virtual environment is activated whenever you work on this project to maintain dependencies correctly.
+
+- You can deactivate the virtual environment by running the following command:
+
+  ```sh
+  deactivate
+  ```
+- To update the packages in the `requirements.txt` file, use the following command:
+
+  ```sh
+    pip freeze > requirements.txt
+    ```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
