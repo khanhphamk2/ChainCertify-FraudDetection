@@ -27,7 +27,7 @@ web3==6.17.0
    ```sh
    git clone https://github.com/khanhphamk2/ChainCertify-FraudDetection.git
    cd ChainCertify-FraudDetection
-
+   
 2. **Create a virtual environment**
    ```sh
    python -m venv venv
@@ -35,19 +35,13 @@ web3==6.17.0
 3. **Activate the virtual environment**
 - On Windows:
    ```sh
-   venv\Scripts\activate
-   
-
+   venv/Scripts/activate
 - On macOS/Linux:
    ```bash
     source venv/bin/activate
-   
-
 4. **Install the dependencies**
    ```sh
    pip install -r requirements.txt
-   
-
 ### Running the API
 1. **Set up environment variables:**
 
@@ -68,6 +62,7 @@ web3==6.17.0
     flask run
     ```
 3. **Access the API:**
+
 Open your web browser or API client (like Postman) and navigate to http://127.0.0.1:5000 to interact with your API.
 
 ### Additional Notes
