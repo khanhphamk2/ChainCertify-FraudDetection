@@ -3,22 +3,20 @@ import pandas as pd
 import numpy as np
 from web3 import Web3
 import requests
-from dotenv import dotenv_values
+import os
 import warnings
 import logging
 warnings.simplefilter("ignore", category=UserWarning)
-logging.getLogger('dotenv').setLevel(logging.ERROR)
 pd.options.mode.chained_assignment = None
 
 
 def query_txn_address(address, start_block=0):
-    env_vars = dotenv_values(".env")
     return (
         f"https://api-sepolia.etherscan.io/api?module=account&action=txlist&address={
             address}&"
         f"startblock={
             start_block}&endblock=19999999&page=1&offset=10000&sort=asc&"
-        f"apikey={env_vars.get("ETHERSCAN_API_KEY")}"
+        f"apikey={os.getenv("ETHERSCAN_API_KEY")}"
     )
 
 

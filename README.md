@@ -5,7 +5,7 @@
 ### Prerequisites
 
 - Python 3.12.x installed on your system.
-- Ensure you have `pip` (Python package installer) installed.
+- Ensure you have `pip` 23.x+ (Python package installer) installed.
 
 ### Requirements
 The project requires the following Python packages:
@@ -16,6 +16,8 @@ numpy==1.26.4
 pandas==2.2.2
 python-dotenv==1.0.1
 requests==2.31.0
+xgboost==2.1.0
+sklearn==1.5.1
 web3==6.17.0
 ```
 

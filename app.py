@@ -26,9 +26,8 @@ def get_predict():
 @app.route('/api/predict', methods=['POST'])
 def predict():
     try:
-        req = request.get_json().get("address")
-        json_data = data.get_data(req)
-        return model.predict(json_data)
+        address = request.get_json().get("address")
+        return jsonify(model.detect(address))
     except Exception as e:
         print(f"Error: {e}")
         return f"Error: {e}"

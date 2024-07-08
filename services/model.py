@@ -1,12 +1,10 @@
 import joblib
-import logging
+import os
 import numpy as np
 import pandas as pd
 import warnings
 import services.data as data
-from dotenv import dotenv_values
 warnings.simplefilter("ignore", category=UserWarning)
-logging.getLogger('dotenv').setLevel(logging.ERROR)
 
 
 def round_to_3dp(array):
@@ -15,13 +13,10 @@ def round_to_3dp(array):
 
 def get_columns():
     try:
-        env_vars = dotenv_values(".env")
-        features_str = env_vars.get("FEATURES")
+        features_str = os.getenv('FEATURES')
         if features_str:
             features = features_str.split(',')
             return features
-        else:
-            return None
     except Exception as e:
         print(f"Error: {e}")
         return None
@@ -53,7 +48,7 @@ def predict(data):
         return None
 
 
-def get_stats(address):
+def detect(address):
     try:
         json_data = data.get_data(address)
         if not json_data:
