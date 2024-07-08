@@ -4,11 +4,15 @@ import numpy as np
 from web3 import Web3
 import requests
 from dotenv import dotenv_values
-
-env_vars = dotenv_values(".env")
+import warnings
+import logging
+warnings.simplefilter("ignore", category=UserWarning)
+logging.getLogger('dotenv').setLevel(logging.ERROR)
+pd.options.mode.chained_assignment = None
 
 
 def query_txn_address(address, start_block=0):
+    env_vars = dotenv_values(".env")
     return (
         f"https://api-sepolia.etherscan.io/api?module=account&action=txlist&address={
             address}&"
@@ -175,7 +179,3 @@ def get_data(address):
     except Exception as e:
         print(f"Error fetching data: {e}")
         return jsonify({'error': 'Error fetching data'})
-
-
-def default():
-    return jsonify({"message": "Done"})
