@@ -172,7 +172,6 @@ def get_data(address):
         sample_df = get_txs_by_address(address)
         if len(sample_df) == 0:
             return jsonify({'error': 'No data found for the address'})
-        print(sample_df)
         return get_stats_normal_tnx(sample_df, address)
     except Exception as e:
         print(f"Error fetching data: {e}")

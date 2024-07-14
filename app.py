@@ -24,11 +24,7 @@ def predict():
 
 @app.route('/api/detect/<address>', methods=['GET'])
 def detect(address):
-    try:
-        return jsonify(model.detect(address))
-    except Exception as e:
-        print(f"Error: {e}")
-        return f"Error: {e}"
+    return model.detect(address)
 
 
 if __name__ == '__main__':

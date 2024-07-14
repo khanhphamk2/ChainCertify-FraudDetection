@@ -1,4 +1,5 @@
 import joblib
+from flask import jsonify
 import os
 import numpy as np
 import pandas as pd
@@ -53,7 +54,7 @@ def detect(address):
         json_data = data.get_data(address)
         if not json_data:
             return None
-        return predict(json_data)
+        return jsonify({'fraud': predict(json_data)})
     except Exception as e:
         print(f"Error: {e}")
-        return None
+        return jsonify({'error': str(e)}), 500
