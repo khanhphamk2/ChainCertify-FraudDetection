@@ -11,22 +11,20 @@ def hello_world():
     return home.default()
 
 
-@app.route('/api/data', methods=['GET'])
-def get_data():
-    address = request.get_json().get("address")
+@app.route('/api/data/<address>', methods=['GET'])
+def get_data(address):
     return data.get_data(address)
 
 
-@app.route('/api/prediction', methods=['POST'])
-def get_predict():
+@app.route('/api/predict/', methods=['POST'])
+def predict():
     json_data = request.get_json()
     return jsonify(model.predict(json_data))
 
 
-@app.route('/api/predict', methods=['POST'])
-def predict():
+@app.route('/api/detect/<address>', methods=['GET'])
+def detect(address):
     try:
-        address = request.get_json().get("address")
         return jsonify(model.detect(address))
     except Exception as e:
         print(f"Error: {e}")

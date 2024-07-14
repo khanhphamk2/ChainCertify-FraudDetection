@@ -5,17 +5,16 @@ from web3 import Web3
 import requests
 import os
 import warnings
-import logging
 warnings.simplefilter("ignore", category=UserWarning)
 pd.options.mode.chained_assignment = None
 
 
 def query_txn_address(address, start_block=0):
     return (
-        f"https://api-sepolia.etherscan.io/api?module=account&action=txlist&address={
+        f"https://api.etherscan.io/api?module=account&action=txlist&address={
             address}&"
         f"startblock={
-            start_block}&endblock=19999999&page=1&offset=10000&sort=asc&"
+            start_block}&endblock=99999999&page=1&offset=10000&sort=asc&"
         f"apikey={os.getenv("ETHERSCAN_API_KEY")}"
     )
 
@@ -173,6 +172,7 @@ def get_data(address):
         sample_df = get_txs_by_address(address)
         if len(sample_df) == 0:
             return jsonify({'error': 'No data found for the address'})
+        print(sample_df)
         return get_stats_normal_tnx(sample_df, address)
     except Exception as e:
         print(f"Error fetching data: {e}")
