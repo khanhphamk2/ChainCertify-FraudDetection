@@ -54,7 +54,9 @@ def detect(address):
         json_data = data.get_data(address)
         if not json_data:
             return None
-        return jsonify({'fraud': predict(json_data)})
+        if json_data['total_txs'] <= 10:
+            return jsonify({'safe': 0})
+        return jsonify({'safe': predict(json_data)})
     except Exception as e:
         print(f"Error: {e}")
         return jsonify({'error': str(e)}), 500

@@ -40,6 +40,8 @@ def get_txs_by_address(address):
 
         initial_url = query_txn_address(address)
         data = fetch_data(initial_url)
+        if len(data) == 0:
+            return pd.DataFrame()
 
         df = pd.DataFrame(data)[columns_to_keep + int_columns + float_columns]
 
@@ -102,6 +104,28 @@ def calculate_received_stats(sample_df_grouped, time_dim, received_stats):
 
 def get_stats_normal_tnx(sample_df, address):
     address = address.lower()
+    if len(sample_df) == 0:
+        return {
+            'address': address,
+            'avg_sent_time': 0,
+            'avg_received_time': 0,
+            'time_difference_mins': 0,
+            'sent': 0,
+            'received': 0,
+            'errors': 0,
+            'unique_received_addresses': 0,
+            'unique_sent_addresses': 0,
+            'min_eth_received': 0,
+            'max_eth_received': 0,
+            'avg_eth_received': 0,
+            'min_eth_sent': 0,
+            'max_eth_sent': 0,
+            'avg_eth_sent': 0,
+            'avg_gas_fee': 0,
+            'total_txs': 0,
+            'total_eth_sent': 0,
+            'total_eth_received': 0,
+        }
 
     sample_df['eth_value'] = sample_df['value'].apply(
         lambda x: Web3.from_wei(int(x), 'ether'))
@@ -170,8 +194,6 @@ def get_stats_normal_tnx(sample_df, address):
 def get_data(address):
     try:
         sample_df = get_txs_by_address(address)
-        if len(sample_df) == 0:
-            return jsonify({'error': 'No data found for the address'})
         return get_stats_normal_tnx(sample_df, address)
     except Exception as e:
         print(f"Error fetching data: {e}")

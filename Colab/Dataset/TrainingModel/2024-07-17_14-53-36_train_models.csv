@@ -1,0 +1,7 @@
+Model,Time taken,Prediction Time,Optimal Parameters,Accuracy,Precision,Recall,F1,ROC-AUC
+tabnet,1504.4775230884552,1.486661434173584,"{'gamma': 1.0, 'lambda_sparse': 0, 'momentum': 0.4, 'n_steps': 8, 'optimizer_params': {'lr': 0.025}, 'verbose': 0}",0.9747,0.9904,0.9813,0.9858,0.9485
+svm,759.7379491329193,23.60289716720581,"{'C': 1000, 'gamma': 1}",0.9684,0.9966,0.9682,0.9822,0.9694
+xgboost,15.843892097473145,1.0362327098846436,"{'learning_rate': 0.05, 'max_depth': 8, 'n_estimators': 1000}",0.9916,0.997,0.9936,0.9953,0.9836
+mlp,44.67696976661682,2.523102045059204,"{'input_dim': 10, 'H': 60, 'activation': 'relu', 'dropout_probability': 0.2, 'num_epochs': 75, 'num_layers': 10}",0.9103,0.9974,0.9025,0.9476,0.9409
+lightGBM,1.6255502700805664,0.18881440162658691,"{'bagging_fraction': 0.95, 'bagging_freq': 1, 'feature_fraction': 0.95, 'learning_rate': 0.2, 'max_bin': 300, 'max_depth': 6, 'min_gain_to_split': 0, 'num_leaves': 20}",0.9907,0.9974,0.9922,0.9948,0.9848
+rf,18.446839094161987,0.5483372211456299,"{'max_depth': 20, 'min_samples_leaf': 5, 'n_jobs': -1}",0.991,0.997,0.993,0.995,0.9833
